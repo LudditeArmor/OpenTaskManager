@@ -1,0 +1,190 @@
+extends Control
+
+onready var rootNode = get_node("/root/AppRootNode")
+onready var TaskEditorScene = preload("res://assets/scenes/TaskEditor.tscn")
+onready var Task = preload("res://assets/scenes/Task.tscn")
+var TaskEditor
+var isTaskEditorOpen = false
+var screenSize
+var defaultInputBarSize = Vector2(100, 25)
+var OriginalTaskLinerPos = []
+var categoryList = []
+var cycleTaskList = []
+var oneTaskList = []
+var constantTaskList = []
+var quickTaskList = []
+var completedTaskList = []
+
+# Called every time the node is added to the scene.
+# Initialization here
+func _ready():
+	print("GUI Loaded")
+	screenSize = get_viewport_rect().size
+	categoryList.resize(rootNode.categories.size()) #Prevents errors in category list
+	#Set GUI Title
+	get_node("MainContainer/Seperator/LBL_Title").set_text(rootNode.title + " " + rootNode.version)
+	get_node("MainContainer/Seperator/LBL_Date").set_text("Current Date: " + str(rootNode.currentDate))
+	
+	#Save the original positons of the task liners for scrolling
+	OriginalTaskLinerPos.insert(0, get_node("MainContainer/Seperator/TaskWindow/TasksLiner/CyclicalTasksLiner").get_pos())
+	OriginalTaskLinerPos.insert(1, get_node("MainContainer/Seperator/TaskWindow/TasksLiner/SingleTasksLiner").get_pos())
+	OriginalTaskLinerPos.insert(2, get_node("MainContainer/Seperator/TaskWindow/TasksLiner/ConstantTasksLiner").get_pos())
+	OriginalTaskLinerPos.insert(3, get_node("MainContainer/Seperator/TaskWindow/TasksLiner/QuickTasksLiner").get_pos())
+	
+	#Category button
+	var categoryPopUpBTN = get_node("MainContainer/Seperator/MenuContainer/Menu/BTN_Category").get_popup()
+	categoryPopUpBTN.add_item("Add category")
+	categoryPopUpBTN.add_item("Remove category")
+	categoryPopUpBTN.connect("item_pressed", self, "_on_BTN_CategoryPopUP_item_pressed")
+	
+	#Inits
+	Refresh(false)
+	set_process(true)
+	set_process_input(true)
+	
+func _process(delta):
+	pass
+	
+func _input(event):
+	pass
+
+#Handles most buttons on screen
+func BTN_handler(name = "null", id = 0, btn_ID = 0):
+	if(name == null):
+		pass
+	#Open Task editor
+	if(name == "AddTask" && isTaskEditorOpen == false):
+		TaskEditor = TaskEditorScene.instance()
+		get_node("MainContainer").add_child(TaskEditor)
+		TaskEditor.set_pos((screenSize / 2) + Vector2(70, 0))
+		isTaskEditorOpen = true
+	#Add a task
+	if(name == "BTN_Done"):
+		print("Done button pressed")
+		#Send all data from Task Editor to the task when "Done" is pressed
+		var tmpTaskInstance = Task.instance()
+		tmpTaskInstance.title = TaskEditor.get_node("VSplitContainer/TitleInput").get_text()
+		tmpTaskInstance.summary = TaskEditor.get_node("VSplitContainer/SummaryInput").get_text()
+		tmpTaskInstance.comment = TaskEditor.get_node("VSplitContainer/CommentInput").get_text()
+		tmpTaskInstance.TaskType = TaskEditor.tmpType
+		tmpTaskInstance.difficulty = TaskEditor.get_node("VSplitContainer/Slider_Difficulty").get_value()
+		tmpTaskInstance.reward = TaskEditor.get_calc_reward(tmpTaskInstance.difficulty)
+		tmpTaskInstance.TaskID = randi()%108+1
+		
+		tmpTaskInstance.category.clear()
+		#tmpTaskInstance.category.resize(rootNode.categories.size())
+		for i in range(0, rootNode.categories.size()-1):
+			if (TaskEditor.tmpCategoryList[i].is_pressed()):
+				tmpTaskInstance.category.insert(i, TaskEditor.tmpCategoryList[i].get_text())
+		
+		if(TaskEditor.tmpType == "Once"):
+			oneTaskList.append(tmpTaskInstance)
+			get_node("MainContainer/Seperator/TaskWindow/TasksLiner/SingleTasksLiner").add_child(oneTaskList[oneTaskList.size()-1])
+		if(TaskEditor.tmpType == "Cyclical"):
+			cycleTaskList.append(tmpTaskInstance)
+			get_node("MainContainer/Seperator/TaskWindow/TasksLiner/CyclicalTasksLiner").add_child(cycleTaskList[cycleTaskList.size()-1])
+		if(TaskEditor.tmpType == "Constant"):
+			constantTaskList.append(tmpTaskInstance)
+			get_node("MainContainer/Seperator/TaskWindow/TasksLiner/ConstantTasksLiner").add_child(constantTaskList[constantTaskList.size()-1])
+		if(TaskEditor.tmpType == "Quick"):
+			quickTaskList.append(tmpTaskInstance)
+			get_node("MainContainer/Seperator/TaskWindow/TasksLiner/QuickTasksLiner").add_child(quickTaskList[quickTaskList.size()-1])
+
+		TaskEditor.queue_free()
+		isTaskEditorOpen = false
+		#print("Task title:" + title)
+
+	#Close Task editor
+	if(name == "BTN_Cancel"):
+		TaskEditor.queue_free()
+		isTaskEditorOpen = false
+	
+	#View entire task (expand)
+	if(name == "BTN_Expand"):
+		var tmpTask = instance_from_id(id).get_owner()
+		#Enable expansion
+		if(instance_from_id(id).is_pressed()):
+			tmpTask.Expand(true)
+			print("Task " + tmpTask.title + " expanding")
+		#Disable expansion
+		if(instance_from_id(id).is_pressed() == false):
+			tmpTask.Expand(false)
+			print("Task " + tmpTask.title + "expansion untoggled")
+
+	if(name == "BTN_Refresh"):
+		Refresh()
+	
+	if(name == "BTN_Close"):
+		rootNode.CloseProgram()
+	
+	if(name == "BTN_CLI"):
+		get_node("/root/AppRootNode").ActivateCLI()
+		self.queue_free()
+
+func _on_BTN_CategoryPopUP_item_pressed(ID):
+	#Add a category
+	if(ID == 0):
+		var InputBar = LineEdit.new()
+		InputBar.set_placeholder("Add")
+		InputBar.set_pos(screenSize / 2)
+		InputBar.set_size(defaultInputBarSize)
+		add_child(InputBar)
+		get_node("MainContainer/Seperator/MenuContainer/Menu/BTN_Category").set_disabled(true)
+		rootNode.categories.append(yield(InputBar, "text_entered"))
+		categoryList.resize(rootNode.categories.size()) #Prevents errors
+		print("Category " + InputBar.get_text() + " added")
+		InputBar.queue_free()
+		get_node("MainContainer/Seperator/MenuContainer/Menu/BTN_Category").set_disabled(false)
+		Refresh()
+		
+	#Remove a Category
+	if(ID == 1):
+		#rootNode.categories.remove(rootNode.categories.size()-1)
+		var InputBar = LineEdit.new()
+		InputBar.set_placeholder("Remove")
+		InputBar.set_pos(screenSize / 2)
+		InputBar.set_size(defaultInputBarSize)
+		add_child(InputBar)
+		get_node("MainContainer/Seperator/MenuContainer/Menu/BTN_Category").set_disabled(true)
+		rootNode.categories.remove(rootNode.categories.find(yield(InputBar, "text_entered")))
+		categoryList.resize(rootNode.categories.size()) #Prevents errors
+		InputBar.queue_free()
+		get_node("MainContainer/Seperator/MenuContainer/Menu/BTN_Category").set_disabled(false)
+		Refresh()
+
+func _on_Filter_item_selected(ID):
+	#Default filter (Show all)
+	if(ID == 0):
+		print("Wajoh")
+	#Filter by category
+	if(ID == 1):
+		pass
+
+#Scroll tasks
+func _on_TaskScroller_value_changed(value):
+	#Check if task liners are in original position
+	#if(OriginalTaskLinerPos[0] == get_node("MainContainer/Seperator/TaskWindow/TasksLiner/CyclicalTasksLiner").get_pos()):
+	#	return 0
+	#else:
+	var SlideScalar = Vector2(0, value).normalized()
+
+	get_node("MainContainer/Seperator/TaskWindow/TasksLiner/CyclicalTasksLiner").set_pos(get_node("MainContainer/Seperator/TaskWindow/TasksLiner/CyclicalTasksLiner").get_pos() + SlideScalar)
+	get_node("MainContainer/Seperator/TaskWindow/TasksLiner/SingleTasksLiner").set_pos(get_node("MainContainer/Seperator/TaskWindow/TasksLiner/SingleTasksLiner").get_pos() + SlideScalar)
+	get_node("MainContainer/Seperator/TaskWindow/TasksLiner/ConstantTasksLiner").set_pos(get_node("MainContainer/Seperator/TaskWindow/TasksLiner/ConstantTasksLiner").get_pos() + SlideScalar)
+	get_node("MainContainer/Seperator/TaskWindow/TasksLiner/QuickTasksLiner").set_pos(get_node("MainContainer/Seperator/TaskWindow/TasksLiner/QuickTasksLiner").get_pos() + SlideScalar)
+
+func Refresh(clear = true):
+	print("Refresh called")
+	#Clears list of on-screen categories
+	if(clear):
+		for i in range(0, categoryList.size()-1):
+			categoryList[i].queue_free()
+			
+		for i in range(0, get_node("MainContainer/Seperator/CategoryGrid").get_child_count()):
+    		get_node("MainContainer/Seperator/CategoryGrid").get_child(i).queue_free()
+
+	#Shows all categories
+	for i in range(0, rootNode.categories.size()):
+		categoryList[i] = CheckBox.new()
+		categoryList[i].set_text(rootNode.categories[i])
+		get_node("MainContainer/Seperator/CategoryGrid").add_child(categoryList[i])

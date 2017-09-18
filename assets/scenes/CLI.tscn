@@ -1,0 +1,98 @@
+[gd_scene load_steps=2 format=1]
+
+[ext_resource path="res://assets/scripts/CLI.gd" type="Script" id=1]
+
+[node name="Node" type="Container"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+script/script = ExtResource( 1 )
+
+[node name="LineEdit" type="LineEdit" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 29.0
+margin/top = 73.0
+margin/right = 436.0
+margin/bottom = 127.0
+placeholder/alpha = 0.6
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="Input" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 75.0
+margin/top = 46.0
+margin/right = 400.0
+margin/bottom = 60.0
+text = "Input"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Output" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 709.0
+margin/top = 46.0
+margin/right = 772.0
+margin/bottom = 60.0
+text = "Output"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 500.0
+margin/top = 89.0
+margin/right = 973.0
+margin/bottom = 530.0
+bbcode/enabled = true
+bbcode/bbcode = ""
+visible_characters = -1
+percent_visible = 1.0
+
+[node name="TestCheckBox" type="CheckBox" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 35.0
+margin/top = 141.0
+margin/right = 61.0
+margin/bottom = 164.0
+toggle_mode = true
+enabled_focus_mode = 2
+shortcut = null
+text = "DontClick"
+flat = false
+align = 0
+
+

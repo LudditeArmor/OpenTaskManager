@@ -1,0 +1,551 @@
+[gd_scene load_steps=4 format=1]
+
+[ext_resource path="res://assets/GlobalTheme.thm" type="Theme" id=1]
+[ext_resource path="res://assets/scripts/gui.gd" type="Script" id=2]
+[ext_resource path="res://assets/scripts/button.gd" type="Script" id=3]
+
+[node name="GUI" type="Control"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+theme/theme = ExtResource( 1 )
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+script/script = ExtResource( 2 )
+
+[node name="MainContainer" type="MarginContainer" parent="."]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 8.0
+margin/top = 8.0
+margin/right = 8.0
+margin/bottom = 8.0
+
+[node name="Seperator" type="VBoxContainer" parent="MainContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 8.0
+margin/top = 0.0
+margin/right = 1024.0
+margin/bottom = 584.0
+custom_constants/separation = 10
+alignment = 0
+
+[node name="LBL_Title" type="Label" parent="MainContainer/Seperator"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 1016.0
+margin/bottom = 14.0
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="LBL_Date" type="Label" parent="MainContainer/Seperator"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 0
+size_flags/vertical = 0
+margin/left = 508.0
+margin/top = 24.0
+margin/right = 508.0
+margin/bottom = 38.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="MenuContainer" type="MarginContainer" parent="MainContainer/Seperator"]
+
+rect/min_size = Vector2( 1016, 40 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 48.0
+margin/right = 1016.0
+margin/bottom = 88.0
+
+[node name="MenuLiner" type="HBoxContainer" parent="MainContainer/Seperator/MenuContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 1
+size_flags/vertical = 2
+margin/left = 229.0
+margin/top = 0.0
+margin/right = 794.0
+margin/bottom = 40.0
+alignment = 0
+
+[node name="AddTask" type="Button" parent="MainContainer/Seperator/MenuContainer/MenuLiner"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 0
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 69.0
+margin/bottom = 40.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Add Task"
+flat = false
+align = 0
+script/script = ExtResource( 3 )
+
+[node name="BTN_Category" type="MenuButton" parent="MainContainer/Seperator/MenuContainer/MenuLiner"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 73.0
+margin/top = 0.0
+margin/right = 140.0
+margin/bottom = 40.0
+toggle_mode = false
+click_on_press = true
+enabled_focus_mode = 0
+shortcut = null
+text = "Category"
+flat = false
+items = [  ]
+
+[node name="BTN_CategoryPopUP" type="PopupMenu" parent="MainContainer/Seperator/MenuContainer/MenuLiner/BTN_Category"]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 53.0
+margin/bottom = 52.0
+popup/exclusive = false
+items = [  ]
+
+[node name="Filter" type="OptionButton" parent="MainContainer/Seperator/MenuContainer/MenuLiner"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 144.0
+margin/top = 0.0
+margin/right = 275.0
+margin/bottom = 40.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Standard Filter"
+flat = false
+align = 0
+selected = 0
+items = [ "Standard Filter", null, false, -1, null, "By Category", null, false, -1, null, "By Date(New)", null, false, -1, null, "By Date(Old)", null, false, -1, null, "ByName", null, false, -1, null ]
+
+[node name="BTN_Analysis" type="Button" parent="MainContainer/Seperator/MenuContainer/MenuLiner"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 279.0
+margin/top = 0.0
+margin/right = 344.0
+margin/bottom = 40.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Analysis"
+flat = false
+script/script = ExtResource( 3 )
+
+[node name="BTN_Help" type="Button" parent="MainContainer/Seperator/MenuContainer/MenuLiner"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 348.0
+margin/top = 0.0
+margin/right = 390.0
+margin/bottom = 40.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Help"
+flat = false
+script/script = ExtResource( 3 )
+
+[node name="BTN_Options" type="Button" parent="MainContainer/Seperator/MenuContainer/MenuLiner"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 394.0
+margin/top = 0.0
+margin/right = 457.0
+margin/bottom = 40.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Options"
+flat = false
+script/script = ExtResource( 3 )
+
+[node name="BTN_Refresh" type="Button" parent="MainContainer/Seperator/MenuContainer/MenuLiner"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 461.0
+margin/top = 0.0
+margin/right = 521.0
+margin/bottom = 40.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Refresh"
+flat = false
+script/script = ExtResource( 3 )
+
+[node name="BTN_CLI" type="Button" parent="MainContainer/Seperator/MenuContainer/MenuLiner"]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 479.0
+margin/top = 0.0
+margin/right = 591.0
+margin/bottom = 40.0
+custom_constants/hseparation = 10
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "CLI (Dangerous)"
+flat = false
+script/script = ExtResource( 3 )
+
+[node name="BTN_Close" type="Button" parent="MainContainer/Seperator/MenuContainer/MenuLiner"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 525.0
+margin/top = 0.0
+margin/right = 565.0
+margin/bottom = 40.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Quit"
+flat = false
+script/script = ExtResource( 3 )
+
+[node name="LBL_QuickNotes" type="Label" parent="MainContainer/Seperator"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 0
+size_flags/vertical = 2
+margin/left = 467.0
+margin/top = 98.0
+margin/right = 548.0
+margin/bottom = 112.0
+text = "Quick notes:"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="QuickNotes" type="LineEdit" parent="MainContainer/Seperator"]
+
+rect/min_size = Vector2( 350, 50 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 0
+size_flags/vertical = 2
+margin/left = 333.0
+margin/top = 122.0
+margin/right = 683.0
+margin/bottom = 172.0
+placeholder/alpha = 0.6
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="SearchFilter" type="LineEdit" parent="MainContainer/Seperator"]
+
+rect/min_size = Vector2( 100, 0 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 1
+size_flags/vertical = 2
+margin/left = 458.0
+margin/top = 182.0
+margin/right = 558.0
+margin/bottom = 206.0
+placeholder/text = "Filter Search"
+placeholder/alpha = 0.6
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="LBL_Categories" type="Label" parent="MainContainer/Seperator"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 216.0
+margin/right = 1016.0
+margin/bottom = 230.0
+text = "Categories: "
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="CategoryGrid" type="GridContainer" parent="MainContainer/Seperator"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 0
+size_flags/vertical = 2
+margin/left = 508.0
+margin/top = 240.0
+margin/right = 508.0
+margin/bottom = 240.0
+custom_constants/vseparation = 5
+custom_constants/hseparation = 5
+columns = 6
+
+[node name="TaskWindow" type="MarginContainer" parent="MainContainer/Seperator"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 250.0
+margin/right = 1016.0
+margin/bottom = 264.0
+
+[node name="TasksLiner" type="HBoxContainer" parent="MainContainer/Seperator/TaskWindow"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 1
+size_flags/vertical = 2
+margin/left = 312.0
+margin/top = 0.0
+margin/right = 712.0
+margin/bottom = 14.0
+custom_constants/separation = 15
+alignment = 0
+
+[node name="CyclicalTasksLiner" type="VBoxContainer" parent="MainContainer/Seperator/TaskWindow/TasksLiner"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 80.0
+margin/bottom = 14.0
+custom_constants/separation = 5
+alignment = 0
+
+[node name="LBL_CylicalTasks" type="Label" parent="MainContainer/Seperator/TaskWindow/TasksLiner/CyclicalTasksLiner"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 80.0
+margin/bottom = 14.0
+text = "Cylical Tasks"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="SingleTasksLiner" type="VBoxContainer" parent="MainContainer/Seperator/TaskWindow/TasksLiner"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 95.0
+margin/top = 0.0
+margin/right = 172.0
+margin/bottom = 14.0
+alignment = 0
+
+[node name="LBL_SingleTasks" type="Label" parent="MainContainer/Seperator/TaskWindow/TasksLiner/SingleTasksLiner"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 77.0
+margin/bottom = 14.0
+text = "Single Tasks"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ConstantTasksLiner" type="VBoxContainer" parent="MainContainer/Seperator/TaskWindow/TasksLiner"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 187.0
+margin/top = 0.0
+margin/right = 282.0
+margin/bottom = 14.0
+alignment = 0
+
+[node name="LBL_ConstantTasks" type="Label" parent="MainContainer/Seperator/TaskWindow/TasksLiner/ConstantTasksLiner"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 95.0
+margin/bottom = 14.0
+text = "Constant Tasks"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="QuickTasksLiner" type="VBoxContainer" parent="MainContainer/Seperator/TaskWindow/TasksLiner"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 297.0
+margin/top = 0.0
+margin/right = 373.0
+margin/bottom = 14.0
+alignment = 0
+
+[node name="LBL_quickTasks" type="Label" parent="MainContainer/Seperator/TaskWindow/TasksLiner/QuickTasksLiner"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 76.0
+margin/bottom = 14.0
+text = "Quick Tasks"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="TaskScroller" type="VScrollBar" parent="MainContainer/Seperator/TaskWindow/TasksLiner"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 0
+size_flags/vertical = 2
+margin/left = 388.0
+margin/top = 0.0
+margin/right = 400.0
+margin/bottom = 14.0
+range/min = -1.0
+range/max = 1.0
+range/step = 0.0
+range/page = 0.0
+range/value = -1.0
+range/exp_edit = false
+range/rounded = false
+custom_step = -1.0
+
+[node name="AnalysisWindow" type="MarginContainer" parent="MainContainer/Seperator"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 274.0
+margin/right = 1016.0
+margin/bottom = 288.0
+
+[node name="LBL_Analysis" type="Label" parent="MainContainer/Seperator/AnalysisWindow"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 8.0
+margin/top = 0.0
+margin/right = 1016.0
+margin/bottom = 14.0
+text = "Analysis"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="CategoryLiner" type="HBoxContainer" parent="MainContainer/Seperator/AnalysisWindow"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 8.0
+margin/top = 0.0
+margin/right = 1016.0
+margin/bottom = 14.0
+alignment = 0
+
+[connection signal="item_selected" from="MainContainer/Seperator/MenuContainer/MenuLiner/Filter" to="." method="_on_Filter_item_selected"]
+
+[connection signal="value_changed" from="MainContainer/Seperator/TaskWindow/TasksLiner/TaskScroller" to="." method="_on_TaskScroller_value_changed"]
+
+
